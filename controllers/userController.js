@@ -1,6 +1,6 @@
-const User = require('../Model/User');
-const jwt = require('jsonwebtoken');
+const User = require('../Model/user');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const registerUser = async (req,res)=>{
     const {username,password}=req.body;
@@ -36,7 +36,7 @@ const loginUser = async(req,res)=>{
         });
     }
     try{
-        const user = await user.findone({where:{username,}})
+        const user = await User.findOne({where:{username}})
         if(!user){
             return res.status(400).json({
                 error:"Username not found"
@@ -51,10 +51,13 @@ const loginUser = async(req,res)=>{
         const token = jwt.sign(
             {id:user.id,username:user.username},
             "hellopofkljfwifnkjnfkjf",
-            {expireIn:'24h'}
+            {expiresIn:'24h'}
         );
-        res .status(200).json({message:"Login successful............."},
-        token)
+        res.status(200).json({
+            message: 'Login successful',
+            token,
+            user: { id: user.id, username: user.username }
+        });
 
     }
     catch (error){
@@ -63,6 +66,7 @@ const loginUser = async(req,res)=>{
 
     }
 }
+module.exports ={loginUser,registerUser};
 
 /*const getTest = async(req,res)=>{
     try{
@@ -115,4 +119,3 @@ const deleteUser = async (req, res) => {
 }*/
 
 //module.exports ={getTest,createTest,updateUser,deleteUser};
-module.exports ={loginUser,registerUser};

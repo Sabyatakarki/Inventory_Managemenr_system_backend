@@ -1,27 +1,30 @@
-//Initializations
+// Initializations
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const sequelize = require("./Database/db");
-const userRoute = require("./route/userRoutes");
+const userRoute = require("./route/userRoute");
+const productRoute = require('./route/productRoute');
 
-//creating a server
+// Creating a server
 const app = express();
 
-//creating a port
-const PORT = 5000;
+// Creating a port
+const PORT = 3000;
 
-//creating a middleware
+// Creating a middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/user', userRoute);
+app.use('/product', productRoute);
 
 // Database sync and server startup
 sequelize.sync()
   .then(() => {
+    // Start the server after successful database sync
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
@@ -36,18 +39,17 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-app.get('/user',(req, res)=>{
-    res.send(`Get all users`)
+// Test routes
+app.get('/test', (req, res) => {
+  res.send('Get all users');
 });
 
-app.post('/user',(req, res)=>{
-     res.send(`Create user`)
- });
+// Example route to update user
+app.put('/user/:id', (req, res) => {
+  res.send(`Update user ${req.params.id}`);
+});
 
-//app.put('/user/:id',(req, res)=>{
-//  res.send(`Update user ${req.params.id}`)
-//});
-
-//app.delete('/User/:id',(req, res)=>{
-  //  res.send(`Delete user ${req.params.id}`)
-//});
+// Example route to delete user
+app.delete('/user/:id', (req, res) => {
+  res.send(`Delete user ${req.params.id}`);
+});
