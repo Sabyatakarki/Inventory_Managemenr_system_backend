@@ -19,13 +19,9 @@ const BusinessInfo = sequelize.define('BusinessInfo', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    UserUserid: {
+    Userid: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Users',
-            key: 'Userid'
-        }
     }
 });
 

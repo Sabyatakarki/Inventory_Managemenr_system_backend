@@ -19,7 +19,7 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         unique: true
     },
-    Phone_number: {
+    phone_number: {
         type: DataTypes.STRING
     },
     address: {

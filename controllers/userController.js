@@ -3,10 +3,11 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const registerUser = async (req,res)=>{
-    const {username,password}=req.body;
-    if(!username || !password){
+    const {username,password, email, phone_number, address}=req.body;
+    // console.log(req.body)
+    if(!username || !password || !email || !phone_number || !address){
         return res.status(400).json({
-            error:"insert the username and password"
+            error:"Insert the field to register"
         });
     }
     try{
@@ -18,12 +19,13 @@ const registerUser = async (req,res)=>{
         }
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password,saltRounds)
-        const newUser = await User.create({username,password:hashedPassword})
+        const newUser = await User.create({username,password:hashedPassword,email,phone_number,address})
         res.status(201).json({message:"Registration Successful"})
     }
     catch(error){
-        res.status(500).json({error:"something went wrong"})
         console.log(error)
+        res.status(500).json({error:"something went wrong"})
+
     }
 }
 

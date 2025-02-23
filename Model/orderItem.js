@@ -7,13 +7,9 @@ const OrderItem = sequelize.define('OrderItems', {
         primaryKey: true,
         autoIncrement: true
     },
-    OrderOrderid: {
+    Orderid: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Orders',
-            key: 'Orderid'
-        }
     },
     quantity: {
         type: DataTypes.INTEGER,

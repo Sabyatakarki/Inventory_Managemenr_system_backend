@@ -1,4 +1,4 @@
-const product = require('../Model/product');
+const Product = require('../Model/product'); // ✅ Ensure proper import
 const fs = require('fs');
 const path = require('path');
 
@@ -8,14 +8,14 @@ const createProduct = async (req, res) => {
         const { productName, price, description } = req.body;
         const productImage = req.file ? req.file.filename : null;
 
-        const product = await product.create({
+        const newProduct = await Product.create({ // ✅ Use `Product` instead of `product`
             productName,
             price,
             description,
             productImage,
         });
 
-        res.status(201).json(product);
+        res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -24,7 +24,7 @@ const createProduct = async (req, res) => {
 // Get all products
 const getAllProducts = async (req, res) => {
     try {
-        const products = await product.findAll();
+        const products = await Product.findAll(); // ✅ Use `Product`
         res.status(200).json(products);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -35,7 +35,7 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await product.findByPk(id);
+        const product = await Product.findByPk(id); // ✅ Use `Product`
 
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
@@ -52,7 +52,7 @@ const updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
         const { productName, price, description } = req.body;
-        const product = await Product.findByPk(id);
+        const product = await Product.findByPk(id); // ✅ Use `Product`
 
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
@@ -64,7 +64,9 @@ const updateProduct = async (req, res) => {
         // Delete old image if a new one is uploaded
         if (req.file && product.productImage) {
             const oldImagePath = path.join(__dirname, '../uploads/', product.productImage);
-            fs.unlinkSync(oldImagePath);
+            if (fs.existsSync(oldImagePath)) {
+                fs.unlinkSync(oldImagePath);
+            }
         }
 
         await product.update({
@@ -84,16 +86,18 @@ const updateProduct = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await Product.findByPk(id);
+        const product = await Product.findByPk(id); // ✅ Use `Product`
 
         if (!product) {
             return res.status(404).json({ error: 'Product not found' });
         }
 
-        // Delete the image file
+        // Delete the image file if it exists
         if (product.productImage) {
             const imagePath = path.join(__dirname, '../uploads/', product.productImage);
-            fs.unlinkSync(imagePath);
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath);
+            }
         }
 
         await product.destroy();
@@ -103,4 +107,4 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-module.exports = { deleteProduct, updateProduct, createProduct, getAllProducts,getProductById};
+module.exports = { deleteProduct, updateProduct, createProduct, getAllProducts, getProductById };

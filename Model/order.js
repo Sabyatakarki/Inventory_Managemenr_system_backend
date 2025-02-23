@@ -7,13 +7,9 @@ const Order = sequelize.define('Orders', {
         primaryKey: true,
         autoIncrement: true
     },
-    UserUserid: {
+    id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        references: {
-            model: 'Users',
-            key: 'Userid'
-        }
     },
     date: {
         type: DataTypes.DATE,
