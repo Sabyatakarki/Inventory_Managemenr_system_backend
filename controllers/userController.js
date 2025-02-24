@@ -30,15 +30,15 @@ const registerUser = async (req,res)=>{
 }
 
 const loginUser = async(req,res)=>{
-    const{username,password}=req.body;
-    if(!username || !password){
+    const{email,password}=req.body;
+    if(!email || !password){
         return res.status(400).json({
             error:"insert the username and password"
 
         });
     }
     try{
-        const user = await User.findOne({where:{username}})
+        const user = await User.findOne({where:{email}})
         if(!user){
             return res.status(400).json({
                 error:"Username not found"
@@ -51,14 +51,14 @@ const loginUser = async(req,res)=>{
             })
         }
         const token = jwt.sign(
-            {id:user.id,username:user.username},
+            {id:user.id,email:user.email},
             "hellopofkljfwifnkjnfkjf",
             {expiresIn:'24h'}
         );
         res.status(200).json({
             message: 'Login successful',
             token,
-            user: { id: user.id, username: user.username }
+            user: { id: user.id, email: user.email }
         });
 
     }

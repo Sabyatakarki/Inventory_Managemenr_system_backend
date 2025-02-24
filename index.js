@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/user', userRoute);
+app.use('/users', userRoute);
 app.use('/product', productRoute);
 app.use('/inventory',inventoryRoute)
 app.use('/order',orderRoute)
