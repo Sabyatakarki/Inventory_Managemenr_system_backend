@@ -5,7 +5,6 @@ const upload = require('../middleware/imageUpload');
 const router = express.Router();
 
 // Routes
-
 router.post('/create_product', upload.single('productImage'), productController.createProduct);
 router.get('/', productController.getAllProducts);
 router.get('/:id', productController.getProductById);
