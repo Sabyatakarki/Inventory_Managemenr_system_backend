@@ -16,5 +16,4 @@ const Inventory = sequelize.define('Inventories', {
         allowNull: false
     }
 });
-
 module.exports = Inventory;

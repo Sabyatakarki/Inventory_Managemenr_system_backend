@@ -1,7 +1,7 @@
 const Product = require('../Model/product');
 
 // Create a product
-exports.createProduct = async (req, res) => {
+exports.createProduct = async (req, res)=>{
     try {
         const { productName, price, description } = req.body;
         const productImage = req.file ? req.file.filename : null;
