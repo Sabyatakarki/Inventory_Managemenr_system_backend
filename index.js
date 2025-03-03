@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Routes
 app.use('/users', userRoute);
 app.use('/product', productRoute);
-app.use('/inventory',inventoryRoute)
+app.use('/inventory', inventoryRoute);
 app.use('/order',orderRoute)
 app.use('/payment',paymentRoute)
 app.use('/orderItem',orderItemRoute)
